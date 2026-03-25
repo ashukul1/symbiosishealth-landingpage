@@ -1,154 +1,385 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Symbiosis Health</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Symbiosis Health — Know Your Real Numbers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --rose:#E91E8C;--rose-light:#F06CB0;--rose-pale:#FADADF;
+  --cream:#FFF0F5;--cream-dark:#FCE4EF;--petal:#FFF0F8;
+  --text:#2A1020;--muted:#8A5070;--border:#F5C0D8;--white:#FFFAFC;
+}
+html{}
+body{background:var(--cream);font-family:'Jost',sans-serif;color:var(--text);overflow-x:hidden}
 
-  <style>
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background-color: #ffffff;
-      color: #333;
-      text-align: center;
-    }
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:68px;padding:0 56px;display:flex;align-items:center;justify-content:space-between;background:rgba(251,247,244,.94);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.nav-logo{display:flex;align-items:center;gap:12px}
+.logo-s{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--rose-light),var(--rose));display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:14px;font-style:italic;color:#fff}
+.nav-name{font-family:'Playfair Display',serif;font-size:19px;color:var(--text)}
+.nav-name span{color:var(--rose)}
+.nav-cta{background:var(--rose);color:#fff;border:none;border-radius:100px;padding:10px 24px;font-size:13px;font-weight:500;letter-spacing:.04em;cursor:pointer;font-family:'Jost',sans-serif;text-decoration:none;transition:all .2s}
+.nav-cta:hover{background:var(--rose-light);transform:translateY(-1px)}
 
-    .container {
-      padding: 60px 20px 40px;
-    }
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:100px 56px 60px;gap:60px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-120px;right:-180px;width:580px;height:580px;border-radius:50%;background:radial-gradient(circle,var(--rose-pale) 0%,transparent 70%);z-index:0}
+.hero::after{content:'';position:absolute;bottom:-80px;left:-100px;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,var(--petal) 0%,transparent 70%);z-index:0}
+.hero-left{position:relative;z-index:1}
+.hero-tag{font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--rose);margin-bottom:20px;opacity:0;animation:fadeUp .8s .1s forwards}
+.hero-h1{font-family:'Playfair Display',serif;font-size:clamp(44px,5.5vw,80px);font-weight:400;line-height:1.08;letter-spacing:-.02em;color:var(--text);margin-bottom:24px;opacity:0;animation:fadeUp .9s .25s forwards}
+.hero-h1 em{font-style:italic;color:var(--rose)}
+.hero-body{font-size:16px;font-weight:300;color:var(--muted);line-height:1.8;max-width:460px;margin-bottom:36px;opacity:0;animation:fadeUp .9s .4s forwards}
+.hero-form{display:flex;gap:10px;max-width:420px;opacity:0;animation:fadeUp .9s .55s forwards}
+.hero-input{flex:1;border:1px solid var(--border);border-radius:100px;padding:14px 22px;font-size:14px;font-family:'Jost',sans-serif;background:var(--white);color:var(--text);outline:none;transition:border-color .2s}
+.hero-input:focus{border-color:var(--rose-light)}
+.hero-input::placeholder{color:#C4A8A3}
+.hero-submit{background:var(--rose);color:#fff;border:none;border-radius:100px;padding:14px 28px;font-size:14px;font-weight:500;cursor:pointer;font-family:'Jost',sans-serif;white-space:nowrap;transition:all .2s}
+.hero-submit:hover{background:var(--rose-light)}
+.hero-micro{font-size:12px;color:#C4A8A3;margin-top:12px;opacity:0;animation:fadeUp .9s .7s forwards}
+.hero-success{display:none;background:var(--petal);border:1px solid var(--rose-pale);border-radius:12px;padding:14px 20px;font-size:13px;color:var(--rose);margin-top:12px}
+.hero-right{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;opacity:0;animation:fadeUp 1s .5s forwards}
+.card-stack{position:relative;width:300px;height:380px}
+.card-back{position:absolute;top:20px;left:20px;right:-20px;bottom:-20px;background:var(--rose-pale);border-radius:22px;transform:rotate(3deg)}
+.card-mid{position:absolute;top:10px;left:10px;right:-10px;bottom:-10px;background:var(--cream-dark);border-radius:22px;transform:rotate(1.5deg)}
+.card-front{position:absolute;inset:0;background:var(--white);border-radius:22px;border:1px solid var(--border);padding:24px;box-shadow:0 8px 40px rgba(180,100,90,.12)}
+.card-label{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+.card-bio-age{font-family:'Playfair Display',serif;font-size:60px;font-weight:400;color:var(--rose);line-height:1;margin-bottom:4px}
+.card-bio-sub{font-size:12px;color:var(--muted);margin-bottom:20px}
+.cbar-row{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+.cbar-name{font-size:11px;color:var(--muted);width:90px;flex-shrink:0}
+.cbar-track{flex:1;height:4px;background:var(--cream-dark);border-radius:2px;overflow:hidden}
+.cbar-fill{height:4px;border-radius:2px}
+.cbar-val{font-size:11px;font-weight:500;width:28px;text-align:right}
+.card-pill{display:inline-flex;align-items:center;gap:6px;background:var(--petal);border:1px solid var(--rose-pale);border-radius:100px;padding:6px 14px;font-size:11px;color:var(--rose);margin-top:16px}
+.pill-dot{width:5px;height:5px;border-radius:50%;background:var(--rose)}
 
-    .logo {
-      width: 180px;
-      margin-bottom: 20px;
-    }
+.stats{background:var(--rose);padding:32px 56px;display:flex;justify-content:center;gap:72px}
+.stat-item{text-align:center}
+.stat-n{font-family:'Playfair Display',serif;font-size:42px;font-weight:400;color:#fff;line-height:1}
+.stat-l{font-size:12px;color:rgba(255,255,255,.7);margin-top:4px;font-weight:300}
 
-    h1 {
-      font-size: 48px;
-      letter-spacing: 8px;
-      color: #d81b7d;
-      margin: 10px 0;
-    }
+.section{padding:96px 56px;max-width:1140px;margin:0 auto}
+.section-tag{font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--rose);margin-bottom:18px}
+.section-h{font-family:'Playfair Display',serif;font-size:clamp(32px,4vw,56px);font-weight:400;line-height:1.1;letter-spacing:-.02em;margin-bottom:20px}
+.section-h em{font-style:italic;color:var(--rose)}
+.section-p{font-size:16px;font-weight:300;color:var(--muted);line-height:1.8;max-width:560px}
 
-    .subtitle {
-      letter-spacing: 6px;
-      font-size: 14px;
-      margin-bottom: 10px;
-    }
+.prob-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:52px;background:var(--border);border-radius:20px;overflow:hidden}
+.prob-card{background:var(--white);padding:36px 28px}
+.prob-n{font-family:'Playfair Display',serif;font-size:52px;font-weight:400;color:var(--rose-light);line-height:1;margin-bottom:14px}
+.prob-title{font-size:15px;font-weight:500;color:var(--text);margin-bottom:10px}
+.prob-desc{font-size:13px;font-weight:300;color:var(--muted);line-height:1.8}
 
-    .tagline {
-      font-size: 16px;
-      color: #777;
-      margin-bottom: 40px;
-    }
+.how-bg{background:var(--cream-dark);padding:96px 56px}
+.how-inner{max-width:1140px;margin:0 auto}
+.steps{display:grid;grid-template-columns:repeat(5,1fr);margin-top:52px;position:relative}
+.steps::before{content:'';position:absolute;top:26px;left:10%;right:10%;height:1px;background:var(--border);z-index:0}
+.step{text-align:center;position:relative;z-index:1}
+.step-num{width:52px;height:52px;border-radius:50%;background:var(--white);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-family:'Playfair Display',serif;font-size:18px;font-style:italic;color:var(--rose)}
+.step-title{font-size:13px;font-weight:500;color:var(--text);margin-bottom:6px}
+.step-desc{font-size:12px;font-weight:300;color:var(--muted);line-height:1.7;padding:0 8px}
 
-    form {
-      margin-top: 20px;
-    }
+.sci-section{padding:96px 56px;max-width:1140px;margin:0 auto}
+.sci-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;margin-top:52px;align-items:start}
+.bio-table{border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.bt-head{display:grid;grid-template-columns:1.6fr 1fr 1fr;background:var(--rose);padding:13px 20px;gap:10px}
+.bt-head span{font-size:11px;font-weight:500;color:rgba(255,255,255,.8);letter-spacing:.06em;text-transform:uppercase}
+.bt-row{display:grid;grid-template-columns:1.6fr 1fr 1fr;padding:12px 20px;gap:10px;border-bottom:1px solid var(--border)}
+.bt-row:last-child{border-bottom:none}
+.bt-row:nth-child(even){background:var(--petal)}
+.bt-row:nth-child(odd){background:var(--white)}
+.bt-name{font-size:12px;font-weight:500;color:var(--text)}
+.bt-old{font-size:12px;color:var(--muted)}
+.bt-new{font-size:12px;font-weight:500;color:var(--rose)}
+.sci-points{display:flex;flex-direction:column;gap:22px}
+.sci-pt{display:flex;gap:16px;align-items:flex-start}
+.sci-icon{width:42px;height:42px;background:var(--petal);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;border:1px solid var(--rose-pale)}
+.sci-title{font-size:14px;font-weight:500;color:var(--text);margin-bottom:4px}
+.sci-desc{font-size:13px;font-weight:300;color:var(--muted);line-height:1.7}
 
-    input[type="email"] {
-      padding: 14px;
-      width: 260px;
-      border: 1px solid #ddd;
-      border-radius: 6px;
-      margin-right: 10px;
-      font-size: 14px;
-    }
+.for-you{background:linear-gradient(160deg,#F7E8E5 0%,#FAF0EE 50%,#F5E6E2 100%);padding:96px 56px}
+.for-inner{max-width:1140px;margin:0 auto}
+.for-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:52px}
+.for-card{background:rgba(255,255,255,.7);border:1px solid var(--border);border-radius:20px;padding:28px;backdrop-filter:blur(8px)}
+.for-emoji{font-size:28px;margin-bottom:14px}
+.for-title{font-family:'Playfair Display',serif;font-size:18px;color:var(--text);margin-bottom:10px}
+.for-desc{font-size:13px;font-weight:300;color:var(--muted);line-height:1.8}
 
-    button {
-      padding: 14px 22px;
-      background-color: #d81b7d;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 14px;
-      cursor: pointer;
-    }
+.waitlist{padding:96px 56px;text-align:center}
+.waitlist-inner{max-width:560px;margin:0 auto}
+.waitlist-h{font-family:'Playfair Display',serif;font-size:clamp(34px,5vw,60px);font-weight:400;line-height:1.1;letter-spacing:-.02em;margin-bottom:16px}
+.waitlist-h em{font-style:italic;color:var(--rose)}
+.waitlist-p{font-size:16px;font-weight:300;color:var(--muted);line-height:1.8;margin-bottom:40px}
+.waitlist-form{display:flex;flex-direction:column;align-items:center;gap:12px}
+.waitlist-input{width:100%;max-width:400px;border:1px solid var(--border);border-radius:100px;padding:15px 24px;font-size:15px;font-family:'Jost',sans-serif;background:var(--white);color:var(--text);outline:none;text-align:center;transition:border-color .2s}
+.waitlist-input:focus{border-color:var(--rose-light)}
+.waitlist-btn{background:var(--rose);color:#fff;border:none;border-radius:100px;padding:15px 40px;font-size:15px;font-weight:500;cursor:pointer;font-family:'Jost',sans-serif;transition:all .2s;width:100%;max-width:400px;letter-spacing:.04em}
+.waitlist-btn:hover{background:var(--rose-light);transform:translateY(-1px)}
+.waitlist-note{font-size:12px;color:#C4A8A3}
+.waitlist-success{display:none;background:var(--petal);border:1px solid var(--rose-pale);border-radius:12px;padding:16px 24px;font-size:14px;color:var(--rose);max-width:400px;width:100%}
 
-    button:hover {
-      background-color: #b9166b;
-    }
+footer{border-top:1px solid var(--border);padding:28px 56px;display:flex;align-items:center;justify-content:space-between}
+.footer-brand{font-family:'Playfair Display',serif;font-size:16px;font-style:italic;color:var(--muted)}
+.footer-note{font-size:12px;color:#C4A8A3}
 
-    /* LOGO BAR */
+.cat-chip{background:var(--white);border:1px solid var(--border);border-radius:100px;padding:8px 16px;font-size:13px;font-weight:400;color:var(--text);white-space:nowrap;transition:all .2s;cursor:default}
+.cat-chip:hover{background:var(--petal);border-color:var(--rose-light);transform:translateY(-1px)}
 
-    .logo-bar {
-      margin-top: 80px;
-      padding: 40px 20px;
-      background-color: #f9f9fb;
-    }
+.marquee-wrap{overflow:hidden;background:#FF2D78;padding:12px 0;border-top:1px solid #FF2D78;border-bottom:1px solid #FF2D78}
+.marquee-track{display:flex;width:max-content;animation:marquee 28s linear infinite}
+.marquee-track:hover{animation-play-state:paused}
+.marquee-item{display:flex;align-items:center;gap:12px;padding:0 32px;white-space:nowrap;font-family:'Cormorant',serif;font-size:15px;font-style:italic;font-weight:300;color:#fff;letter-spacing:.06em}
+.marquee-dot{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.6);flex-shrink:0}
 
-    .logo-text {
-      font-size: 13px;
-      color: #6b6b6b;
-      margin-bottom: 25px;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-    }
+.uni-track{display:flex;align-items:center;width:max-content;animation:marquee 24s linear infinite}
+.uni-track:hover{animation-play-state:paused}
+.uni-item{display:flex;align-items:center;gap:16px;padding:0 32px}
+.uni-name{font-family:'Cormorant',serif;font-size:18px;font-weight:300;font-style:italic;color:#fff;letter-spacing:.04em;white-space:nowrap}
+.uni-sep{color:#FF2D78;font-size:10px}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
-    .logo-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 50px;
-      flex-wrap: wrap;
-    }
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .75s ease,transform .75s ease}
+.reveal.visible{opacity:1;transform:none}
 
-    .logo-container img {
-      height: 38px;
-      opacity: 0.7;
-      filter: grayscale(100%);
-      transition: all 0.3s ease;
-    }
-
-    .logo-container img:hover {
-      opacity: 1;
-      filter: grayscale(0%);
-      transform: scale(1.08);
-    }
-
-    footer {
-      margin-top: 60px;
-      font-size: 12px;
-      color: #aaa;
-    }
-
-  </style>
+@media(max-width:860px){
+  nav{padding:0 20px}
+  .hero{grid-template-columns:1fr;padding:100px 24px 60px;gap:40px}
+  .hero-right{display:none}
+  .stats{flex-wrap:wrap;gap:28px;padding:32px 24px}
+  .section,.sci-section,.for-you,.waitlist{padding:64px 24px}
+  .how-bg{padding:64px 24px}
+  .prob-grid,.for-grid{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr 1fr;gap:24px}
+  .steps::before{display:none}
+  .sci-grid{grid-template-columns:1fr}
+  footer{flex-direction:column;gap:8px;text-align:center;padding:24px}
+}
+</style>
 </head>
-
 <body>
 
-  <div class="container">
-    
-    <!-- LOGO -->
-    <img src="symbiosis_health_logo_barbie.png" class="logo" alt="Symbiosis Health Logo">
-
-    <!-- TEXT -->
-    <h1>Symbiosis</h1>
-    <div class="subtitle">HEALTH</div>
-    <div class="tagline">preventive care built for you</div>
-
-    <!-- WAITLIST FORM -->
-    <form action="https://formspree.io/f/mdapnrdg" method="POST">
-      <input type="email" name="email" placeholder="Enter your email" required>
-      <button type="submit">Join Waitlist</button>
-    </form>
-
+<nav>
+  <div class="nav-logo">
+    <div class="logo-s">S</div>
+    <div class="nav-name">Symbiosis <span>Health</span></div>
   </div>
+  <a href="#waitlist" class="nav-cta">Join waitlist</a>
+</nav>
 
-  <!-- CREDIBILITY BAR -->
-  <section class="logo-bar">
-    <p class="logo-text">Built by professionals from</p>
-    <div class="logo-container">
-      <img src="bu.png" alt="Boston University">
-      <img src="nyu.png" alt="NYU">
-      <img src="harvard.png" alt="Harvard">
-      <img src="rutgers.png" alt="Rutgers">
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-tag">Now accepting early members</div>
+    <h1 class="hero-h1">Your body.<br>Your biology.<br><em>Finally understood.</em></h1>
+    <p class="hero-body">The first predictive health platform built for women of color — where your results are measured against thresholds that actually reflect your biology.</p>
+    <form class="hero-form" onsubmit="joinWaitlist(event,'hero-success','hero-email','hero-btn')">
+      <input class="hero-input" type="email" placeholder="your@email.com" required id="hero-email">
+      <button class="hero-submit" id="hero-btn" type="submit">Join waitlist</button>
+    </form>
+    <div id="hero-success" class="hero-success">✓ You're on the list — we'll be in touch soon.</div>
+    <p class="hero-micro">Free early access · No credit card required</p>
+  </div>
+  <div class="hero-right">
+    <div class="card-stack">
+      <div class="card-back"></div>
+      <div class="card-mid"></div>
+      <div class="card-front">
+        <div class="card-label">Your health dashboard</div>
+        <div class="card-bio-age">34</div>
+        <div class="card-bio-sub">Biological age · Chronological: 28</div>
+        <div class="cbar-row"><div class="cbar-name">Metabolic</div><div class="cbar-track"><div class="cbar-fill" style="width:72%;background:#C9847A"></div></div><div class="cbar-val" style="color:#C9847A">72</div></div>
+        <div class="cbar-row"><div class="cbar-name">Cardiovascular</div><div class="cbar-track"><div class="cbar-fill" style="width:58%;background:#E8B4AE"></div></div><div class="cbar-val" style="color:#E8B4AE">58</div></div>
+        <div class="cbar-row"><div class="cbar-name">Nutritional</div><div class="cbar-track"><div class="cbar-fill" style="width:44%;background:#D4A574"></div></div><div class="cbar-val" style="color:#D4A574">44</div></div>
+        <div class="cbar-row"><div class="cbar-name">Thyroid</div><div class="cbar-track"><div class="cbar-fill" style="width:28%;background:#A8C4A0"></div></div><div class="cbar-val" style="color:#A8C4A0">28</div></div>
+        <div class="card-pill"><div class="pill-dot"></div>Insulin resistance detected</div>
+      </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <footer>
-    © 2026 Symbiosis Health
-  </footer>
+<div class="stats">
+  <div class="stat-item"><div class="stat-n">3×</div><div class="stat-l">Higher CVD risk for WOC vs clinical averages</div></div>
+  <div class="stat-item"><div class="stat-n">100+</div><div class="stat-l">Biomarkers scored against WOC-specific thresholds</div></div>
+  <div class="stat-item"><div class="stat-n">10yrs</div><div class="stat-l">Earlier metabolic disease onset vs Western populations</div></div>
+  <div class="stat-item"><div class="stat-n">0</div><div class="stat-l">Platforms built for your biology — until now</div></div>
+</div>
 
+<div style="background:#000;padding:20px 0;border-top:1px solid #1a1a1a;border-bottom:1px solid #1a1a1a;overflow:hidden">
+  <p style="font-size:10px;font-weight:400;letter-spacing:.22em;text-transform:uppercase;color:#555;text-align:center;margin-bottom:18px">Built by doctors &amp; engineers from</p>
+  <div style="overflow:hidden">
+    <div class="uni-track">
+      <div class="uni-item"><span class="uni-name">Harvard University</span><span class="uni-sep">✦</span></div><div class="uni-item"><span class="uni-name">New York University</span><span class="uni-sep">✦</span></div><div class="uni-item"><span class="uni-name">Boston University</span><span class="uni-sep">✦</span></div><div class="uni-item"><span class="uni-name">Rutgers University</span><span class="uni-sep">✦</span></div><div class="uni-item"><span class="uni-name">CUNY</span><span class="uni-sep">✦</span></div><div class="uni-item"><span class="uni-name">Harvard University</span><span class="uni-sep">✦</span></div><div class="uni-item"><span class="uni-name">New York University</span><span class="uni-sep">✦</span></div><div class="uni-item"><span class="uni-name">Boston University</span><span class="uni-sep">✦</span></div><div class="uni-item"><span class="uni-name">Rutgers University</span><span class="uni-sep">✦</span></div><div class="uni-item"><span class="uni-name">CUNY</span><span class="uni-sep">✦</span></div><div class="uni-item"><span class="uni-name">Harvard University</span><span class="uni-sep">✦</span></div><div class="uni-item"><span class="uni-name">New York University</span><span class="uni-sep">✦</span></div><div class="uni-item"><span class="uni-name">Boston University</span><span class="uni-sep">✦</span></div><div class="uni-item"><span class="uni-name">Rutgers University</span><span class="uni-sep">✦</span></div><div class="uni-item"><span class="uni-name">CUNY</span><span class="uni-sep">✦</span></div><div class="uni-item"><span class="uni-name">Harvard University</span><span class="uni-sep">✦</span></div><div class="uni-item"><span class="uni-name">New York University</span><span class="uni-sep">✦</span></div><div class="uni-item"><span class="uni-name">Boston University</span><span class="uni-sep">✦</span></div><div class="uni-item"><span class="uni-name">Rutgers University</span><span class="uni-sep">✦</span></div><div class="uni-item"><span class="uni-name">CUNY</span><span class="uni-sep">✦</span></div>
+    </div>
+  </div>
+</div>
+
+
+<section class="section">
+  <div class="reveal">
+    <div class="section-tag">The problem</div>
+    <h2 class="section-h">You've been told<br><em>you're fine.</em><br>You deserve better.</h2>
+    <p class="section-p">Clinical reference ranges were built on white male bodies. Women of color are measured against the wrong standard — and told they're healthy when they're not.</p>
+  </div>
+  <div class="prob-grid reveal">
+    <div class="prob-card">
+      <div class="prob-n">Early</div>
+      <div class="prob-title">Catch it before it starts</div>
+      <div class="prob-desc">Most disease is preventable when caught years before symptoms appear. Symbiosis Health gives you the data to intervene while you still can — not after a diagnosis forces your hand.</div>
+    </div>
+    <div class="prob-card">
+      <div class="prob-n">100+</div>
+      <div class="prob-title">Biomarkers for $299</div>
+      <div class="prob-desc">One comprehensive panel. Heart, thyroid, metabolic, hormonal, nutritional, immune, cancer detection, biological age, and more — all scored against thresholds built for your biology. Two full panels per year for $299 — test, retest, and track exactly how your numbers move.</div>
+    </div>
+    <div class="prob-card">
+      <div class="prob-n">0</div>
+      <div class="prob-title">Platforms built for you</div>
+      <div class="prob-desc">Function Health. Superpower. InsideTracker. None of them have built population-specific thresholds for women of color. We did.</div>
+    </div>
+  </div>
+</section>
+
+<div class="how-bg">
+  <div class="how-inner">
+    <div class="reveal">
+      <div class="section-tag">How it works</div>
+      <h2 class="section-h">Simple for you.<br><em>Rigorous for us.</em></h2>
+    </div>
+    <div class="steps reveal" style="grid-template-columns:repeat(6,1fr)">
+      <div class="step"><div class="step-num">1</div><div class="step-title">Sign up</div><div class="step-desc">Tell us about your background, family history, and health goals</div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-title">Get tested</div><div class="step-desc">Visit a partner diagnostic lab. We'll guide you through the panel</div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-title">We analyse</div><div class="step-desc">100+ markers scored against thresholds calibrated for your population</div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-title">Results explained</div><div class="step-desc">By top doctors — every number in plain language, no jargon</div></div>
+      <div class="step"><div class="step-num">5</div><div class="step-title">Follow your protocol</div><div class="step-desc">Take action — personalised food, movement, and supplement plan</div></div>
+      <div class="step"><div class="step-num">6</div><div class="step-title">Test again</div><div class="step-desc">Retest in 6 months and watch your biological age move</div></div>
+    </div>
+  </div>
+</div>
+
+
+<div style="background:var(--cream-dark);padding:72px 56px">
+  <div style="max-width:1140px;margin:0 auto">
+    <div class="reveal" style="text-align:center;margin-bottom:40px">
+      <div class="section-tag">What's included</div>
+      <h2 class="section-h" style="text-align:center">Everything your body<br><em>is trying to tell you.</em></h2>
+      <p style="font-size:15px;font-weight:300;color:var(--muted);margin-top:12px">100+ biomarkers across 24 health categories — all in one panel, all physician-reviewed.</p>
+    </div>
+    <div class="reveal" style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center">
+      <div class="cat-chip">❤️ Heart</div>
+      <div class="cat-chip">🦋 Thyroid</div>
+      <div class="cat-chip">🔍 Cancer Detection</div>
+      <div class="cat-chip">🛡️ Autoimmunity</div>
+      <div class="cat-chip">🧬 Immune Regulation</div>
+      <div class="cat-chip">🌸 Female Health</div>
+      <div class="cat-chip">⚡ Metabolic</div>
+      <div class="cat-chip">🌿 Environmental Toxins</div>
+      <div class="cat-chip">⏳ Biological Age</div>
+      <div class="cat-chip">💊 Nutrients</div>
+      <div class="cat-chip">😴 Stress & Aging</div>
+      <div class="cat-chip">🫀 Liver</div>
+      <div class="cat-chip">🩸 Blood</div>
+      <div class="cat-chip">🫘 Kidneys</div>
+      <div class="cat-chip">🍬 Pancreas</div>
+      <div class="cat-chip">🧠 Brain Health</div>
+      <div class="cat-chip">⚗️ Electrolytes</div>
+      <div class="cat-chip">🌾 Allergies & Sensitivities</div>
+      <div class="cat-chip">💧 Urine</div>
+      <div class="cat-chip">💗 Sexual Health</div>
+      <div class="cat-chip">🦴 Bone Health</div>
+      <div class="cat-chip">🦠 Infections</div>
+      <div class="cat-chip">🌱 Gut</div>
+      <div class="cat-chip">🩻 MRI & CT Scans</div>
+    </div>
+    <div class="reveal" style="text-align:center;margin-top:40px">
+      <div style="display:inline-block;background:var(--rose);color:#fff;border-radius:16px;padding:20px 40px">
+        <div style="font-family:'Playfair Display',serif;font-size:42px;font-weight:400;line-height:1">$299</div>
+        <div style="font-size:13px;font-weight:300;margin-top:4px;opacity:.9">2 tests per year · 100+ biomarkers · Physician-reviewed</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="sci-section">
+  <div class="reveal">
+    <div class="section-tag">The science</div>
+    <h2 class="section-h">The thresholds<br><em>are the difference.</em></h2>
+    <p class="section-p">Every cutoff is peer-reviewed and population-specific. Your GP uses Western ranges. We don't.</p>
+  </div>
+  <div class="sci-grid reveal">
+    <div>
+      <div class="bio-table">
+        <div class="bt-head"><span>Biomarker</span><span>Standard</span><span>Symbiosis</span></div>
+        <div class="bt-row"><div class="bt-name">Fasting Glucose</div><div class="bt-old">&lt;100 mg/dL</div><div class="bt-new">&lt;90 mg/dL</div></div>
+        <div class="bt-row"><div class="bt-name">Fasting Insulin</div><div class="bt-old">&lt;15 µIU/mL</div><div class="bt-new">&lt;8 µIU/mL</div></div>
+        <div class="bt-row"><div class="bt-name">Triglycerides</div><div class="bt-old">&lt;150 mg/dL</div><div class="bt-new">&lt;100 mg/dL</div></div>
+        <div class="bt-row"><div class="bt-name">hs-CRP</div><div class="bt-old">&lt;3.0 mg/L</div><div class="bt-new">&lt;1.0 mg/L</div></div>
+        <div class="bt-row"><div class="bt-name">Vitamin B12</div><div class="bt-old">≥200 pg/mL</div><div class="bt-new">≥400 pg/mL</div></div>
+        <div class="bt-row"><div class="bt-name">TSH</div><div class="bt-old">0.4–4.5 mIU/L</div><div class="bt-new">1.0–2.5 mIU/L</div></div>
+      </div>
+    </div>
+    <div class="sci-points">
+      <div class="sci-pt"><div class="sci-icon">🔬</div><div><div class="sci-title">80+ peer-reviewed citations</div><div class="sci-desc">Every threshold backed by population-specific studies — MASALA, INTERHEART, JACC 2023, ADA Asian guidelines, NHANES WOC cohorts.</div></div></div>
+      <div class="sci-pt"><div class="sci-icon">🧬</div><div><div class="sci-title">Biological age — not just a score</div><div class="sci-desc">We don't just flag markers. We show how much each result is aging you — and exactly which changes give you years back.</div></div></div>
+      <div class="sci-pt"><div class="sci-icon">👩🏽‍⚕️</div><div><div class="sci-title">Physician-reviewed, always</div><div class="sci-desc">Every report reviewed and approved by a qualified doctor before you see a single result. No algorithm without oversight.</div></div></div>
+      <div class="sci-pt"><div class="sci-icon">💗</div><div><div class="sci-title">Built by a WOC, for WOC</div><div class="sci-desc">This platform was built by a founder who watched her family get misdiagnosed for years. The science came first. The product followed.</div></div></div>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="waitlist" id="waitlist">
+  <div class="waitlist-inner reveal">
+    <h2 class="waitlist-h">Know your<br><em>real numbers.</em></h2>
+    <p class="waitlist-p">Join the waitlist for early access to Symbiosis Health. Be among the first women of color to see their health through the right lens.</p>
+    <form class="waitlist-form" onsubmit="joinWaitlist(event,'waitlist-success','waitlist-email','waitlist-btn')">
+      <input class="waitlist-input" type="email" placeholder="your@email.com" required id="waitlist-email">
+      <button class="waitlist-btn" id="waitlist-btn" type="submit">Join the waitlist →</button>
+      <div id="waitlist-success" class="waitlist-success">✓ You're on the list. We'll reach out with early access details.</div>
+      <p class="waitlist-note">No spam · Early access only · Unsubscribe anytime</p>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-brand">Symbiosis Health · 2026</div>
+  <div class="footer-note">Peer-reviewed science · Physician-reviewed reports · Built for WOC</div>
+</footer>
+
+<script>
+// Small delay so page loads at top before reveals fire
+setTimeout(() => {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible') })
+  }, {threshold: 0.08, rootMargin: '0px 0px -40px 0px'})
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el))
+}, 100)
+
+function joinWaitlist(e, successId, inputId, btnId) {
+  e.preventDefault()
+  const email = document.getElementById(inputId).value
+  const btn = document.getElementById(btnId)
+  btn.textContent = '...'
+  btn.disabled = true
+  fetch('https://symbiosisllc.onrender.com/waitlist', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({email})
+  })
+  .then(() => {
+    document.getElementById(successId).style.display = 'block'
+    document.getElementById(inputId).style.display = 'none'
+    btn.style.display = 'none'
+  })
+  .catch(() => {
+    document.getElementById(successId).style.display = 'block'
+    document.getElementById(inputId).style.display = 'none'
+    btn.style.display = 'none'
+  })
+}
+</script>
 </body>
 </html>
