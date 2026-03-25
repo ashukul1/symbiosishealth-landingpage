@@ -162,7 +162,7 @@ footer{border-top:1px solid var(--border);padding:28px 56px;display:flex;align-i
     <h1 class="hero-h1">Your body.<br>Your biology.<br><em>Finally understood.</em></h1>
     <p class="hero-body">The first predictive health platform built for women of color — where your results are measured against thresholds that actually reflect your biology.</p>
     <form class="hero-form" action="https://formspree.io/f/mdapnrdg" method="POST">
-      <input class="hero-input" type="email" placeholder="your@email.com" required id="hero-email">
+      <input class="hero-input" type="email" name="email" placeholder="your@email.com" required>
       <button class="hero-submit" id="hero-btn" type="submit">Join waitlist</button>
     </form>
     <div id="hero-success" class="hero-success">✓ You're on the list — we'll be in touch soon.</div>
@@ -311,7 +311,7 @@ footer{border-top:1px solid var(--border);padding:28px 56px;display:flex;align-i
   <div class="waitlist-inner reveal">
     <h2 class="waitlist-h">Know your<br><em>real numbers.</em></h2>
     <p class="waitlist-p">Join the waitlist for early access to Symbiosis Health. Be among the first women of color to see their health through the right lens.</p>
-    <form class="waitlist-form" onsubmit="joinWaitlist(event,'waitlist-success','waitlist-email','waitlist-btn')">
+   <form class="waitlist-form" action="https://formspree.io/f/mdapnrdg" method="POST">
       <input class="waitlist-input" type="email" placeholder="your@email.com" required id="waitlist-email">
       <button class="waitlist-btn" id="waitlist-btn" type="submit">Join the waitlist →</button>
       <div id="waitlist-success" class="waitlist-success">✓ You're on the list. We'll reach out with early access details.</div>
